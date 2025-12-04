@@ -688,16 +688,21 @@ class MiddlewareEvents(Events):
     A proxy model for aggregating events. Includes additional fields that
     are captured by the pghistory middleware
     """
-
-    user = core.ProxyField(
-        "pgh_context__user",
-        models.ForeignKey(
-            settings.AUTH_USER_MODEL,
-            on_delete=models.DO_NOTHING,
-            null=True,
-            help_text="The user associated with the event.",
-        ),
-    )
+    if getattr(settings, "PGHISTORY_USE_USER_MODEL", False):
+        user = core.ProxyField(
+            "pgh_context__user",
+            models.ForeignKey(
+                settings.AUTH_USER_MODEL,
+                on_delete=models.DO_NOTHING,
+                null=True,
+                help_text="The user associated with the event.",
+            ),
+        )
+    else:
+        user = core.ProxyField(
+            "pgh_context__user",
+            models.TextField(null=True, help_text="The user associated with the event."),
+        )
     url = core.ProxyField(
         "pgh_context__url",
         models.TextField(null=True, help_text="The url associated with the event."),
