@@ -688,7 +688,8 @@ class MiddlewareEvents(Events):
     A proxy model for aggregating events. Includes additional fields that
     are captured by the pghistory middleware
     """
-    if getattr(settings, "PGHISTORY_USE_USER_MODEL", False):
+
+    if getattr(settings, "AUTH_USER_MODEL", None) is not None:
         user = core.ProxyField(
             "pgh_context__user",
             models.ForeignKey(
