@@ -1,4 +1,6 @@
 import django
+from django.apps import apps
+from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.version import get_version_tuple
 
@@ -40,3 +42,17 @@ def related_model(field):
     """Return the concrete model a field references"""
     if hasattr(field, "related_model") and field.related_model:
         return field.related_model._meta.concrete_model
+
+
+def _can_proxy_user_model() -> bool:
+    """
+    Return whether the User model is set up and the corresponding app is installed.
+    """
+    auth_user_model = getattr(settings, "AUTH_USER_MODEL", None)
+    if not auth_user_model:
+        return False
+    try:
+        app_label, _model_name = auth_user_model.split(".", 1)
+    except ValueError:
+        return False
+    return apps.is_installed(app_label)

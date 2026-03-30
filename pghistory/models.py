@@ -689,7 +689,7 @@ class MiddlewareEvents(Events):
     are captured by the pghistory middleware
     """
 
-    if getattr(settings, "AUTH_USER_MODEL", None) is not None:
+    if utils._can_proxy_user_model():
         user = core.ProxyField(
             "pgh_context__user",
             models.ForeignKey(
