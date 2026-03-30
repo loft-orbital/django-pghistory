@@ -1,5 +1,22 @@
 # Changelog
 
+## 3.9.2 (2026-02-17)
+
+#### Fixes
+
+  - Fixes two correctness issues in RowEvent.__init__ that made explicit overrides for `condition` and `level` unreliable by [@mustafa0x](https://github.com/mustafa0x) in [#253](https://github.com/AmbitionEng/django-pghistory/pull/253).
+
+#### Changes
+
+  - Add warning admonition in docs for pghistory admin installation by [@rik](https://github.com/rik) in [#252](https://github.com/AmbitionEng/django-pghistory/pull/252).
+
+## 3.9.1 (2025-12-11)
+
+#### Changes
+
+  - Update CHANGELOG with migration note by [@mlissner](https://github.com/mlissner) in [#246](https://github.com/AmbitionEng/django-pghistory/pull/246).
+  - Add connection pooling proxy section to performance doc by [@mlissner](https://github.com/mlissner) in [#247](https://github.com/AmbitionEng/django-pghistory/pull/247).
+
 ## 3.9.0 (2025-11-30)
 
 #### Changes
@@ -51,6 +68,10 @@
     Use `@pghistory.track(level=pghistory.Statement)` to leverage statement-level triggers in history tracking. Set is as the default with `PGHISTORY_LEVEL = pghistory.Statement`.
 
     A usage guide was added to the "Performance and Scaling" section of the docs. It notes how it works with conditional history tracking and caveats to be aware of.
+
+    > **Note**
+    >
+    > This upgrade includes a data migration ([0007_0007_auto_20250421_0444.py](https://github.com/AmbitionEng/django-pghistory/blob/main/pghistory/migrations/0007_auto_20250421_0444.py)), which should be nearly instant on any database.
 
   - Optimize context tracking by [@wesleykendall](https://github.com/wesleykendall) in [#197](https://github.com/AmbitionEng/django-pghistory/pull/197).
 
